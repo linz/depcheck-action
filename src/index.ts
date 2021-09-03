@@ -2,7 +2,7 @@ import * as core from '@actions/core';
 // import * as github from '@actions/github';
 
 async function main(): Promise<void> {
-  const packageJson = core.getInput('package_json');
+  const packageJson = core.getInput('package-json');
   console.log(`Hello ${packageJson}!`);
 }
 
