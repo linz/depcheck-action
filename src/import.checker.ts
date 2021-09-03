@@ -93,6 +93,7 @@ export class ImportChecker {
     if (this.failures.length > 0) core.setFailed('Missing dependencies');
   }
 
+  /** Load ignore files eg .gitignore */
   async loadIgnore(ignorePath: string): Promise<void> {
     try {
       const data = await fs.readFile(ignorePath);
@@ -102,6 +103,10 @@ export class ImportChecker {
     }
   }
 
+  /**
+   * Validate all packages inside a glob string
+   * @example ["packages/*"]
+   */
   async checkPackages(packages: string[]): Promise<void> {
     for (const workspaceDir of packages) {
       const globber = await glob.create(path.join(this.basePath, workspaceDir), { implicitDescendants: false });
@@ -111,6 +116,7 @@ export class ImportChecker {
     }
   }
 
+  /** check a individual package to see if there are any unlinked dependencies */
   async checkPackage(pkgPath: string): Promise<void> {
     if (!existsSync(getPackagePath(pkgPath))) {
       core.debug(`Skipping path: "${pkgPath}" - No package.json found`);
@@ -133,11 +139,14 @@ export class ImportChecker {
     for (const dep of res.imports) {
       if (deps.has(dep.package)) continue;
       if (devDeps.has(dep.package)) continue;
+      /** Ignored */
       if (this.options.ignorePackages.has(dep.package)) continue;
+      /** Check if its a standard node package */
       if (this.options.isNode && BuiltInNodeModules.has(dep.package)) continue;
+      /** Check if it exists in the workspace's dependencies */
       if (this.options.isWorkspace && this.base.dev.has(dep.package)) continue;
 
-      // Only log a error once per file
+      // Only log a error upto 5 times per file
       const packageKey = [dep.package, dep.path].join('::');
       const currentValue = seen.get(packageKey) ?? 0;
       seen.set(packageKey, currentValue + 1);
@@ -154,6 +163,7 @@ export class ImportChecker {
     }
   }
 
+  /** Create a collection of all imports and where they are found in the files  */
   async getAllImports(importPath: string): Promise<{ imports: ImportResult[]; packages: Set<string> }> {
     const imports: ImportResult[] = [];
     const packages = new Set<string>();
@@ -174,6 +184,7 @@ export class ImportChecker {
     return { imports, packages };
   }
 
+  /** Recursively list a folder while ignoring any ignored folders @see isIgnored */
   async *listFolder(folder: string): AsyncGenerator<string> {
     const files = await fs.readdir(folder, { withFileTypes: true });
     for (const file of files) {
@@ -184,6 +195,10 @@ export class ImportChecker {
     }
   }
 
+  /** Is a file path ignored for any reason
+   * @see this.loadIgnore
+   * @see ImportCheckerOptions
+   */
   isIgnored(filePath: string): boolean {
     const relPath = filePath.substr(this.basePath.length + 1);
     if (relPath.length === 0) return false;
