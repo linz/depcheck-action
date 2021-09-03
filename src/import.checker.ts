@@ -4,7 +4,7 @@ import * as c from 'ansi-colors';
 import { existsSync, promises as fs } from 'fs';
 import * as path from 'path';
 import { Handlers } from './checker';
-import { ImportResults } from './checkers/handler';
+import { ImportResult } from './checkers/handler';
 import { BuiltInNodeModules } from './node.modules';
 import ignore, { Ignore } from 'ignore';
 /**
@@ -63,6 +63,7 @@ export class ImportChecker {
   basePath: string;
   base: Dependencies;
   ig: Ignore;
+  failures: ImportResult[];
   constructor(basePath: string, options: Partial<ImportCheckerOptions> = {}) {
     this.options = {
       ...DefaultOptions,
@@ -73,6 +74,7 @@ export class ImportChecker {
   }
 
   async check(): Promise<void> {
+    this.failures = [];
     this.loadIgnore(path.join(this.basePath, '.gitignore'));
     this.loadIgnore(path.join(this.basePath, '.depignore'));
 
@@ -88,6 +90,8 @@ export class ImportChecker {
     else {
       core.error('Unknown workspace');
     }
+
+    if (this.failures.length > 0) core.setFailed('Missing dependencies');
   }
 
   async loadIgnore(ignorePath: string): Promise<void> {
@@ -140,6 +144,7 @@ export class ImportChecker {
       seen.set(packageKey, currentValue + 1);
       if (currentValue >= 5) continue;
 
+      this.failures.push(dep);
       core.error(c.red('Missing Package: ') + `"${dep.package}" is missing in ${dep.path}`, {
         startLine: dep.startLine,
         startColumn: dep.startColumn,
@@ -150,8 +155,8 @@ export class ImportChecker {
     }
   }
 
-  async getAllImports(importPath: string): Promise<{ imports: ImportResults[]; packages: Set<string> }> {
-    const imports: ImportResults[] = [];
+  async getAllImports(importPath: string): Promise<{ imports: ImportResult[]; packages: Set<string> }> {
+    const imports: ImportResult[] = [];
     const packages = new Set<string>();
 
     for await (const filePath of this.listFolder(importPath)) {

@@ -7,6 +7,9 @@ import { ImportChecker } from '../import.checker';
 const Examples = path.join(__dirname, '..', '..', '..', 'examples');
 o.spec('Main', () => {
   const sandbox = createSandbox();
+  o.beforeEach(() => {
+    sandbox.stub(core, 'setFailed');
+  });
   o.afterEach(() => {
     sandbox.restore();
   });

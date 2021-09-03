@@ -1,9 +1,9 @@
 import { promises as fs } from 'fs';
-import { ImportResults } from './handler';
+import { ImportResult } from './handler';
 import { parsePackage, QuoteRegex, RequireChunk } from './util';
 
-export async function javascriptHandler(filePath: string): Promise<ImportResults[]> {
-  const output: ImportResults[] = [];
+export async function javascriptHandler(filePath: string): Promise<ImportResult[]> {
+  const output: ImportResult[] = [];
   const data = await fs.readFile(filePath);
   const lines = data.toString().split('\n');
   for (let i = 0; i < lines.length; i++) {
