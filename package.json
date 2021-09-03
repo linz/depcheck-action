@@ -11,13 +11,19 @@
   },
   "dependencies": {
     "@actions/core": "^1.5.0",
+    "@actions/glob": "^0.2.0",
     "@types/node": "^16.7.10",
+    "ansi-colors": "^4.1.1",
     "depcheck": "^1.4.2",
-    "esbuild": "^0.12.25"
+    "esbuild": "^0.12.25",
+    "glob": "^7.1.7"
   },
   "devDependencies": {
     "@linzjs/style": "^3.1.0",
+    "@types/glob": "^7.1.4",
     "@types/ospec": "^4.0.2",
-    "ospec": "^4.1.1"
+    "@types/sinon": "^10.0.2",
+    "ospec": "^4.1.1",
+    "sinon": "^11.1.2"
   }
 }
