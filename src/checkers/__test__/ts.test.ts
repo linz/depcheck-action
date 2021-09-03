@@ -17,7 +17,7 @@ o.spec('TypeScriptHandler', () => {
 
     o(ret.length).equals(1);
     o(ret[0].path).equals('foo.ts');
-    o(ret[0].startLine).equals(0);
+    o(ret[0].startLine).equals(1);
     o(ret[0].startColumn).equals(0);
     o(ret[0].package).equals('aws-sdk');
     o(ret[0].import).equals('');
@@ -32,7 +32,7 @@ o.spec('TypeScriptHandler', () => {
 
     o(ret.length).equals(1);
     o(ret[0].path).equals('foo.ts');
-    o(ret[0].startLine).equals(0);
+    o(ret[0].startLine).equals(1);
     o(ret[0].startColumn).equals(0);
     o(ret[0].package).equals('@aws-cdk/aws-s3');
     o(ret[0].import).equals('');
@@ -47,7 +47,7 @@ o.spec('TypeScriptHandler', () => {
 
     o(ret.length).equals(1);
     o(ret[0].path).equals('foo.ts');
-    o(ret[0].startLine).equals(0);
+    o(ret[0].startLine).equals(1);
     o(ret[0].startColumn).equals(0);
     o(ret[0].package).equals('aws-sdk');
     o(ret[0].import).equals('clients/s3');
@@ -62,7 +62,7 @@ o.spec('TypeScriptHandler', () => {
 
     o(ret.length).equals(1);
     o(ret[0].path).equals('foo.ts');
-    o(ret[0].startLine).equals(0);
+    o(ret[0].startLine).equals(1);
     o(ret[0].startColumn).equals(0);
     o(ret[0].package).equals('source-map-support');
     o(ret[0].import).equals('register');
@@ -83,7 +83,7 @@ o.spec('TypeScriptHandler', () => {
 
     const ret = await typescriptHandler('foo.ts');
     o(ret[0].path).equals('foo.ts');
-    o(ret[0].startLine).equals(0);
+    o(ret[0].startLine).equals(1);
     o(ret[0].startColumn).equals(0);
     o(ret[0].package).equals('@aws-cdk/aws-ec2');
     o(ret[0].import).equals('');
