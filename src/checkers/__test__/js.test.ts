@@ -15,7 +15,7 @@ o.spec('JsHandler', () => {
 
     const ret = await javascriptHandler('foo.js');
     o(ret[0].path).equals('foo.js');
-    o(ret[0].startLine).equals(0);
+    o(ret[0].startLine).equals(1);
     o(ret[0].package).equals('@aws-cdk/aws-ec2');
     o(ret[0].import).equals('');
     o(ret[0].line).equals(line);

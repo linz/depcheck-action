@@ -29,7 +29,7 @@ export async function typescriptHandler(filePath: string): Promise<ImportResult[
     if (pkg.package === '{') continue;
 
     output.push({
-      startLine: i,
+      startLine: i + 1,
       package: pkg.package,
       import: pkg.path,
       startColumn: 0,
