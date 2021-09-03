@@ -1,12 +1,11 @@
 import * as core from '@actions/core';
 import * as glob from '@actions/glob';
-import * as c from 'ansi-colors';
 import { existsSync, promises as fs } from 'fs';
+import ignore, { Ignore } from 'ignore';
 import * as path from 'path';
 import { Handlers } from './checker';
 import { ImportResult } from './checkers/handler';
 import { BuiltInNodeModules } from './node.modules';
-import ignore, { Ignore } from 'ignore';
 /**
  * get the package.json location from this path
  * @param pkgPath
@@ -145,7 +144,7 @@ export class ImportChecker {
       if (currentValue >= 5) continue;
 
       this.failures.push(dep);
-      core.error(c.red('Missing Package: ') + `"${dep.package}" is missing in ${dep.path}`, {
+      core.error(`Missing Package: "${dep.package}" is missing in ${dep.path}`, {
         startLine: dep.startLine,
         startColumn: dep.startColumn,
         title: `"${dep.package}" not found in package.json`,
