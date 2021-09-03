@@ -12,11 +12,13 @@
   "dependencies": {
     "@actions/core": "^1.5.0",
     "@actions/glob": "^0.2.0",
+    "@linzjs/s3fs": "^6.8.0",
     "@types/node": "^16.7.10",
+    "@zeit/ncc": "^0.22.3",
     "ansi-colors": "^4.1.1",
-    "depcheck": "^1.4.2",
     "esbuild": "^0.12.25",
-    "glob": "^7.1.7"
+    "glob": "^7.1.7",
+    "ignore": "^5.1.8"
   },
   "devDependencies": {
     "@linzjs/style": "^3.1.0",
