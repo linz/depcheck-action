@@ -1,7 +1,7 @@
 {
   "name": "depcheck-action",
   "version": "0.0.1",
-  "main": "build/src/index.js",
+  "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
     "build": "tsc --pretty",
