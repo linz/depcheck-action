@@ -1,5 +1,5 @@
 import * as core from '@actions/core';
-import { readFile } from 'fs/promises';
+import { promises as fs } from 'fs';
 import * as path from 'path';
 import depcheck from 'depcheck';
 import * as glob from '@actions/glob';
@@ -16,7 +16,7 @@ function getPackagePath(pkgPath: string): string {
 }
 
 async function loadPackageJson(pkgPath: string): Promise<Record<string, unknown>> {
-  const rootJson = await readFile(getPackagePath(pkgPath));
+  const rootJson = await fs.readFile(getPackagePath(pkgPath));
   return JSON.parse(rootJson.toString());
 }
 
