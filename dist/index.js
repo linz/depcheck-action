@@ -2769,7 +2769,7 @@ async function javascriptHandler(filePath) {
     if (pkg.package === "")
       continue;
     output.push({
-      startLine: i,
+      startLine: i + 1,
       package: pkg.package,
       import: pkg.path,
       startColumn: requireIndex,
@@ -2807,7 +2807,7 @@ async function typescriptHandler(filePath) {
     if (pkg.package === "{")
       continue;
     output.push({
-      startLine: i,
+      startLine: i + 1,
       package: pkg.package,
       import: pkg.path,
       startColumn: 0,
