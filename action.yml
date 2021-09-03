@@ -6,4 +6,4 @@ inputs:
     default: "package.json"
 runs:
   using: "node12"
-  main: "build/index.js"
+  main: "dist/index.js"

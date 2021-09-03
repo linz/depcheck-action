@@ -1,17 +1,19 @@
 {
   "name": "depcheck-action",
   "version": "0.0.1",
-  "main": "index.js",
+  "main": "build/src/index.js",
   "license": "MIT",
   "scripts": {
     "build": "tsc --pretty",
     "lint": "eslint 'src/**/*.ts' --quiet --fix",
-    "test": "ospec build/**/*.test.js"
+    "test": "ospec build/**/*.test.js",
+    "package": "npx esbuild src/index.ts --bundle --outdir=dist/ --platform=node"
   },
   "dependencies": {
     "@actions/core": "^1.5.0",
     "@types/node": "^16.7.10",
-    "depcheck": "^1.4.2"
+    "depcheck": "^1.4.2",
+    "esbuild": "^0.12.25"
   },
   "devDependencies": {
     "@linzjs/style": "^3.1.0",
