@@ -886,25 +886,25 @@ var require_brace_expansion = __commonJS({
         var pad = n.some(isPadded);
         N = [];
         for (var i = x; test(i, y); i += incr) {
-          var c2;
+          var c;
           if (isAlphaSequence) {
-            c2 = String.fromCharCode(i);
-            if (c2 === "\\")
-              c2 = "";
+            c = String.fromCharCode(i);
+            if (c === "\\")
+              c = "";
           } else {
-            c2 = String(i);
+            c = String(i);
             if (pad) {
-              var need = width - c2.length;
+              var need = width - c.length;
               if (need > 0) {
                 var z = new Array(need + 1).join("0");
                 if (i < 0)
-                  c2 = "-" + z + c2.slice(1);
+                  c = "-" + z + c.slice(1);
                 else
-                  c2 = z + c2;
+                  c = z + c;
               }
             }
           }
-          N.push(c2);
+          N.push(c);
         }
       } else {
         N = concatMap(n, function(el) {
@@ -948,8 +948,8 @@ var require_minimatch = __commonJS({
     var twoStarNoDot = "(?:(?!(?:\\/|^)\\.).)*?";
     var reSpecials = charSet("().*{}+?[]^$\\!");
     function charSet(s) {
-      return s.split("").reduce(function(set, c2) {
-        set[c2] = true;
+      return s.split("").reduce(function(set, c) {
+        set[c] = true;
         return set;
       }, {});
     }
@@ -1138,14 +1138,14 @@ var require_minimatch = __commonJS({
           stateChar = false;
         }
       }
-      for (var i = 0, len = pattern.length, c2; i < len && (c2 = pattern.charAt(i)); i++) {
-        this.debug("%s	%s %s %j", pattern, i, re, c2);
-        if (escaping && reSpecials[c2]) {
-          re += "\\" + c2;
+      for (var i = 0, len = pattern.length, c; i < len && (c = pattern.charAt(i)); i++) {
+        this.debug("%s	%s %s %j", pattern, i, re, c);
+        if (escaping && reSpecials[c]) {
+          re += "\\" + c;
           escaping = false;
           continue;
         }
-        switch (c2) {
+        switch (c) {
           case "/":
             return false;
           case "\\":
@@ -1157,17 +1157,17 @@ var require_minimatch = __commonJS({
           case "+":
           case "@":
           case "!":
-            this.debug("%s	%s %s %j <-- stateChar", pattern, i, re, c2);
+            this.debug("%s	%s %s %j <-- stateChar", pattern, i, re, c);
             if (inClass) {
               this.debug("  in class");
-              if (c2 === "!" && i === classStart + 1)
-                c2 = "^";
-              re += c2;
+              if (c === "!" && i === classStart + 1)
+                c = "^";
+              re += c;
               continue;
             }
             self.debug("call clearStateChar %j", stateChar);
             clearStateChar();
-            stateChar = c2;
+            stateChar = c;
             if (options.noext)
               clearStateChar();
             continue;
@@ -1217,17 +1217,17 @@ var require_minimatch = __commonJS({
           case "[":
             clearStateChar();
             if (inClass) {
-              re += "\\" + c2;
+              re += "\\" + c;
               continue;
             }
             inClass = true;
             classStart = i;
             reClassStart = re.length;
-            re += c2;
+            re += c;
             continue;
           case "]":
             if (i === classStart + 1 || !inClass) {
-              re += "\\" + c2;
+              re += "\\" + c;
               escaping = false;
               continue;
             }
@@ -1245,16 +1245,16 @@ var require_minimatch = __commonJS({
             }
             hasMagic = true;
             inClass = false;
-            re += c2;
+            re += c;
             continue;
           default:
             clearStateChar();
             if (escaping) {
               escaping = false;
-            } else if (reSpecials[c2] && !(c2 === "^" && inClass)) {
+            } else if (reSpecials[c] && !(c === "^" && inClass)) {
               re += "\\";
             }
-            re += c2;
+            re += c;
         }
       }
       if (inClass) {
@@ -1728,25 +1728,25 @@ var require_internal_pattern = __commonJS({
       static getLiteral(segment) {
         let literal = "";
         for (let i = 0; i < segment.length; i++) {
-          const c2 = segment[i];
-          if (c2 === "\\" && !IS_WINDOWS && i + 1 < segment.length) {
+          const c = segment[i];
+          if (c === "\\" && !IS_WINDOWS && i + 1 < segment.length) {
             literal += segment[++i];
             continue;
-          } else if (c2 === "*" || c2 === "?") {
+          } else if (c === "*" || c === "?") {
             return "";
-          } else if (c2 === "[" && i + 1 < segment.length) {
+          } else if (c === "[" && i + 1 < segment.length) {
             let set = "";
             let closed = -1;
             for (let i2 = i + 1; i2 < segment.length; i2++) {
-              const c22 = segment[i2];
-              if (c22 === "\\" && !IS_WINDOWS && i2 + 1 < segment.length) {
+              const c2 = segment[i2];
+              if (c2 === "\\" && !IS_WINDOWS && i2 + 1 < segment.length) {
                 set += segment[++i2];
                 continue;
-              } else if (c22 === "]") {
+              } else if (c2 === "]") {
                 closed = i2;
                 break;
               } else {
-                set += c22;
+                set += c2;
               }
             }
             if (closed >= 0) {
@@ -1760,7 +1760,7 @@ var require_internal_pattern = __commonJS({
               }
             }
           }
-          literal += c2;
+          literal += c;
         }
         return literal;
       }
@@ -2252,236 +2252,6 @@ var require_glob = __commonJS({
   }
 });
 
-// node_modules/ansi-colors/symbols.js
-var require_symbols = __commonJS({
-  "node_modules/ansi-colors/symbols.js"(exports, module2) {
-    "use strict";
-    var isHyper = process.env.TERM_PROGRAM === "Hyper";
-    var isWindows = process.platform === "win32";
-    var isLinux = process.platform === "linux";
-    var common = {
-      ballotDisabled: "\u2612",
-      ballotOff: "\u2610",
-      ballotOn: "\u2611",
-      bullet: "\u2022",
-      bulletWhite: "\u25E6",
-      fullBlock: "\u2588",
-      heart: "\u2764",
-      identicalTo: "\u2261",
-      line: "\u2500",
-      mark: "\u203B",
-      middot: "\xB7",
-      minus: "\uFF0D",
-      multiplication: "\xD7",
-      obelus: "\xF7",
-      pencilDownRight: "\u270E",
-      pencilRight: "\u270F",
-      pencilUpRight: "\u2710",
-      percent: "%",
-      pilcrow2: "\u2761",
-      pilcrow: "\xB6",
-      plusMinus: "\xB1",
-      section: "\xA7",
-      starsOff: "\u2606",
-      starsOn: "\u2605",
-      upDownArrow: "\u2195"
-    };
-    var windows = Object.assign({}, common, {
-      check: "\u221A",
-      cross: "\xD7",
-      ellipsisLarge: "...",
-      ellipsis: "...",
-      info: "i",
-      question: "?",
-      questionSmall: "?",
-      pointer: ">",
-      pointerSmall: "\xBB",
-      radioOff: "( )",
-      radioOn: "(*)",
-      warning: "\u203C"
-    });
-    var other = Object.assign({}, common, {
-      ballotCross: "\u2718",
-      check: "\u2714",
-      cross: "\u2716",
-      ellipsisLarge: "\u22EF",
-      ellipsis: "\u2026",
-      info: "\u2139",
-      question: "?",
-      questionFull: "\uFF1F",
-      questionSmall: "\uFE56",
-      pointer: isLinux ? "\u25B8" : "\u276F",
-      pointerSmall: isLinux ? "\u2023" : "\u203A",
-      radioOff: "\u25EF",
-      radioOn: "\u25C9",
-      warning: "\u26A0"
-    });
-    module2.exports = isWindows && !isHyper ? windows : other;
-    Reflect.defineProperty(module2.exports, "common", { enumerable: false, value: common });
-    Reflect.defineProperty(module2.exports, "windows", { enumerable: false, value: windows });
-    Reflect.defineProperty(module2.exports, "other", { enumerable: false, value: other });
-  }
-});
-
-// node_modules/ansi-colors/index.js
-var require_ansi_colors = __commonJS({
-  "node_modules/ansi-colors/index.js"(exports, module2) {
-    "use strict";
-    var isObject = (val) => val !== null && typeof val === "object" && !Array.isArray(val);
-    var ANSI_REGEX = /[\u001b\u009b][[\]#;?()]*(?:(?:(?:[^\W_]*;?[^\W_]*)\u0007)|(?:(?:[0-9]{1,4}(;[0-9]{0,4})*)?[~0-9=<>cf-nqrtyA-PRZ]))/g;
-    var create2 = () => {
-      const colors = { enabled: true, visible: true, styles: {}, keys: {} };
-      if ("FORCE_COLOR" in process.env) {
-        colors.enabled = process.env.FORCE_COLOR !== "0";
-      }
-      const ansi = (style2) => {
-        let open = style2.open = `[${style2.codes[0]}m`;
-        let close = style2.close = `[${style2.codes[1]}m`;
-        let regex = style2.regex = new RegExp(`\\u001b\\[${style2.codes[1]}m`, "g");
-        style2.wrap = (input, newline) => {
-          if (input.includes(close))
-            input = input.replace(regex, close + open);
-          let output = open + input + close;
-          return newline ? output.replace(/\r*\n/g, `${close}$&${open}`) : output;
-        };
-        return style2;
-      };
-      const wrap = (style2, input, newline) => {
-        return typeof style2 === "function" ? style2(input) : style2.wrap(input, newline);
-      };
-      const style = (input, stack) => {
-        if (input === "" || input == null)
-          return "";
-        if (colors.enabled === false)
-          return input;
-        if (colors.visible === false)
-          return "";
-        let str = "" + input;
-        let nl = str.includes("\n");
-        let n = stack.length;
-        if (n > 0 && stack.includes("unstyle")) {
-          stack = [...new Set(["unstyle", ...stack])].reverse();
-        }
-        while (n-- > 0)
-          str = wrap(colors.styles[stack[n]], str, nl);
-        return str;
-      };
-      const define = (name, codes, type) => {
-        colors.styles[name] = ansi({ name, codes });
-        let keys = colors.keys[type] || (colors.keys[type] = []);
-        keys.push(name);
-        Reflect.defineProperty(colors, name, {
-          configurable: true,
-          enumerable: true,
-          set(value) {
-            colors.alias(name, value);
-          },
-          get() {
-            let color = (input) => style(input, color.stack);
-            Reflect.setPrototypeOf(color, colors);
-            color.stack = this.stack ? this.stack.concat(name) : [name];
-            return color;
-          }
-        });
-      };
-      define("reset", [0, 0], "modifier");
-      define("bold", [1, 22], "modifier");
-      define("dim", [2, 22], "modifier");
-      define("italic", [3, 23], "modifier");
-      define("underline", [4, 24], "modifier");
-      define("inverse", [7, 27], "modifier");
-      define("hidden", [8, 28], "modifier");
-      define("strikethrough", [9, 29], "modifier");
-      define("black", [30, 39], "color");
-      define("red", [31, 39], "color");
-      define("green", [32, 39], "color");
-      define("yellow", [33, 39], "color");
-      define("blue", [34, 39], "color");
-      define("magenta", [35, 39], "color");
-      define("cyan", [36, 39], "color");
-      define("white", [37, 39], "color");
-      define("gray", [90, 39], "color");
-      define("grey", [90, 39], "color");
-      define("bgBlack", [40, 49], "bg");
-      define("bgRed", [41, 49], "bg");
-      define("bgGreen", [42, 49], "bg");
-      define("bgYellow", [43, 49], "bg");
-      define("bgBlue", [44, 49], "bg");
-      define("bgMagenta", [45, 49], "bg");
-      define("bgCyan", [46, 49], "bg");
-      define("bgWhite", [47, 49], "bg");
-      define("blackBright", [90, 39], "bright");
-      define("redBright", [91, 39], "bright");
-      define("greenBright", [92, 39], "bright");
-      define("yellowBright", [93, 39], "bright");
-      define("blueBright", [94, 39], "bright");
-      define("magentaBright", [95, 39], "bright");
-      define("cyanBright", [96, 39], "bright");
-      define("whiteBright", [97, 39], "bright");
-      define("bgBlackBright", [100, 49], "bgBright");
-      define("bgRedBright", [101, 49], "bgBright");
-      define("bgGreenBright", [102, 49], "bgBright");
-      define("bgYellowBright", [103, 49], "bgBright");
-      define("bgBlueBright", [104, 49], "bgBright");
-      define("bgMagentaBright", [105, 49], "bgBright");
-      define("bgCyanBright", [106, 49], "bgBright");
-      define("bgWhiteBright", [107, 49], "bgBright");
-      colors.ansiRegex = ANSI_REGEX;
-      colors.hasColor = colors.hasAnsi = (str) => {
-        colors.ansiRegex.lastIndex = 0;
-        return typeof str === "string" && str !== "" && colors.ansiRegex.test(str);
-      };
-      colors.alias = (name, color) => {
-        let fn = typeof color === "string" ? colors[color] : color;
-        if (typeof fn !== "function") {
-          throw new TypeError("Expected alias to be the name of an existing color (string) or a function");
-        }
-        if (!fn.stack) {
-          Reflect.defineProperty(fn, "name", { value: name });
-          colors.styles[name] = fn;
-          fn.stack = [name];
-        }
-        Reflect.defineProperty(colors, name, {
-          configurable: true,
-          enumerable: true,
-          set(value) {
-            colors.alias(name, value);
-          },
-          get() {
-            let color2 = (input) => style(input, color2.stack);
-            Reflect.setPrototypeOf(color2, colors);
-            color2.stack = this.stack ? this.stack.concat(fn.stack) : fn.stack;
-            return color2;
-          }
-        });
-      };
-      colors.theme = (custom) => {
-        if (!isObject(custom))
-          throw new TypeError("Expected theme to be an object");
-        for (let name of Object.keys(custom)) {
-          colors.alias(name, custom[name]);
-        }
-        return colors;
-      };
-      colors.alias("unstyle", (str) => {
-        if (typeof str === "string" && str !== "") {
-          colors.ansiRegex.lastIndex = 0;
-          return str.replace(colors.ansiRegex, "");
-        }
-        return "";
-      });
-      colors.alias("noop", (str) => str);
-      colors.none = colors.clear = colors.noop;
-      colors.stripColor = colors.unstyle;
-      colors.symbols = require_symbols();
-      colors.define = define;
-      return colors;
-    };
-    module2.exports = create2();
-    module2.exports.create = create2;
-  }
-});
-
 // node_modules/ignore/index.js
 var require_ignore = __commonJS({
   "node_modules/ignore/index.js"(exports, module2) {
@@ -2733,8 +2503,8 @@ var core2 = __toModule(require_core());
 // src/import.checker.ts
 var core = __toModule(require_core());
 var glob = __toModule(require_glob());
-var c = __toModule(require_ansi_colors());
 var import_fs3 = __toModule(require("fs"));
+var import_ignore = __toModule(require_ignore());
 var path = __toModule(require("path"));
 
 // src/checkers/js.ts
@@ -2885,7 +2655,6 @@ var BuiltInNodeModules = new Set([
 ]);
 
 // src/import.checker.ts
-var import_ignore = __toModule(require_ignore());
 function getPackagePath(pkgPath) {
   if (pkgPath.endsWith("package.json"))
     return pkgPath;
@@ -2980,7 +2749,7 @@ var ImportChecker = class {
       if (currentValue >= 5)
         continue;
       this.failures.push(dep);
-      core.error(c.red("Missing Package: ") + `"${dep.package}" is missing in ${dep.path}`, {
+      core.error(`Missing Package: "${dep.package}" is missing in ${dep.path}`, {
         startLine: dep.startLine,
         startColumn: dep.startColumn,
         title: `"${dep.package}" not found in package.json`,
