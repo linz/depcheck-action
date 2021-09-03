@@ -11,6 +11,5 @@ Add the following snippet to a github action
         # Defaults to './package.json'
         package-json: tests/single-missing/package.json
         # Ignore packages
-        package-ignore:
-            - "@basemaps/test"
+        package-ignore: "aws-cdk, @aws-cdk/core"
 ```
