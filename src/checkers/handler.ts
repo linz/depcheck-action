@@ -1,4 +1,4 @@
-export interface ImportResults {
+export interface ImportResult {
   startLine: number;
   startColumn: number;
   line: string;
@@ -8,5 +8,5 @@ export interface ImportResults {
 }
 
 export interface ImportHandler {
-  (path: string): Promise<ImportResults[]>;
+  (path: string): Promise<ImportResult[]>;
 }
