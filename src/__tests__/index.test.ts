@@ -24,12 +24,12 @@ o.spec('Main', () => {
     const annotation = errStub.args[0][1] as any;
     o(annotation.title).equals('"aws-sdk" not found in package.json');
     o(annotation.file.endsWith('examples/missing-dep/index.js')).equals(true);
-    o(annotation.startLine).equals(0);
+    o(annotation.startLine).equals(1);
 
     const annotationB = errStub.args[1][1] as any;
     o(annotationB.title).equals('"aws-sdk" not found in package.json');
     o(annotationB.file.endsWith('examples/missing-dep/index.js')).equals(true);
-    o(annotationB.startLine).equals(1);
+    o(annotationB.startLine).equals(2);
   });
 
   o('should find find workspaces', async () => {

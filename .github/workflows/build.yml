@@ -24,7 +24,7 @@ jobs:
       run: yarn run build
 
     - name: Package
-      run: yarn run package
+      run: yarn run bundle
 
     - name: Test
       run: yarn run test
