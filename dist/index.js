@@ -331,11 +331,11 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       command_1.issue("echo", enabled ? "on" : "off");
     }
     exports.setCommandEcho = setCommandEcho;
-    function setFailed2(message) {
+    function setFailed3(message) {
       process.exitCode = ExitCode.Failure;
       error2(message);
     }
-    exports.setFailed = setFailed2;
+    exports.setFailed = setFailed3;
     function isDebug() {
       return process.env["RUNNER_DEBUG"] === "1";
     }
@@ -2912,6 +2912,7 @@ var ImportChecker = class {
   }
   async check() {
     var _a, _b;
+    this.failures = [];
     this.loadIgnore(path.join(this.basePath, ".gitignore"));
     this.loadIgnore(path.join(this.basePath, ".depignore"));
     const pkg = await loadPackageJson(this.basePath);
@@ -2928,6 +2929,8 @@ var ImportChecker = class {
     else {
       core.error("Unknown workspace");
     }
+    if (this.failures.length > 0)
+      core.setFailed("Missing dependencies");
   }
   async loadIgnore(ignorePath) {
     try {
@@ -2976,6 +2979,7 @@ var ImportChecker = class {
       seen.set(packageKey, currentValue + 1);
       if (currentValue >= 5)
         continue;
+      this.failures.push(dep);
       core.error(c.red("Missing Package: ") + `"${dep.package}" is missing in ${dep.path}`, {
         startLine: dep.startLine,
         startColumn: dep.startColumn,
