@@ -2,9 +2,8 @@ import * as core from '@actions/core';
 import { ImportChecker } from './import.checker';
 
 export async function main(): Promise<void> {
-  const checker = new ImportChecker(core.getInput('package-json'), {
-    ignorePackages: new Set(core.getMultilineInput('package-ignore')),
-  });
+  const ignorePackages = new Set((core.getInput('package-ignore') ?? '').split(',').map((c) => c.trim()));
+  const checker = new ImportChecker(core.getInput('package-json'), { ignorePackages });
   await checker.check();
 }
 
