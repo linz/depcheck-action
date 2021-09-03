@@ -14,6 +14,8 @@
     "depcheck": "^1.4.2"
   },
   "devDependencies": {
-    "@linzjs/style": "^3.1.0"
+    "@linzjs/style": "^3.1.0",
+    "@types/ospec": "^4.0.2",
+    "ospec": "^4.1.1"
   }
 }
