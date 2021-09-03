@@ -4,6 +4,9 @@ inputs:
   package-json:
     description: Root package json file to use
     default: "package.json"
+  package-ignore:
+    description: List of packages to ignore
+    required: false
 runs:
   using: "node12"
   main: "dist/index.js"

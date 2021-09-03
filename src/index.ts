@@ -1,8 +1,10 @@
 import * as core from '@actions/core';
 import { ImportChecker } from './import.checker';
 
-export async function main(rootPackage: string = core.getInput('package-json')): Promise<void> {
-  const checker = new ImportChecker(rootPackage, { ignorePackages: new Set() });
+export async function main(): Promise<void> {
+  const checker = new ImportChecker(core.getInput('package-json'), {
+    ignorePackages: new Set(core.getMultilineInput('package-ignore')),
+  });
   await checker.check();
 }
 
