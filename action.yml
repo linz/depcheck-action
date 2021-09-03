@@ -1,9 +1,9 @@
-name: 'Scan dependencies'
-description: 'Scan for unlinked dependencies'
+name: "Scan dependencies"
+description: "Scan for unlinked dependencies"
 inputs:
-    package_json:
-      description: Root package json file to use
-      default: 'package.json'
+  package-json:
+    description: Root package json file to use
+    default: "package.json"
 runs:
-  using: 'node12'
-  main: 'build/index.js'
+  using: "node12"
+  main: "build/index.js"
