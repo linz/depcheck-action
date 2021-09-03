@@ -172,7 +172,7 @@ var require_file_command = __commonJS({
     };
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.issueCommand = void 0;
-    var fs = __importStar(require("fs"));
+    var fs2 = __importStar(require("fs"));
     var os = __importStar(require("os"));
     var utils_1 = require_utils();
     function issueCommand(command, message) {
@@ -180,10 +180,10 @@ var require_file_command = __commonJS({
       if (!filePath) {
         throw new Error(`Unable to find environment variable for file command ${command}`);
       }
-      if (!fs.existsSync(filePath)) {
+      if (!fs2.existsSync(filePath)) {
         throw new Error(`Missing file at path: ${filePath}`);
       }
-      fs.appendFileSync(filePath, `${utils_1.toCommandValue(message)}${os.EOL}`, {
+      fs2.appendFileSync(filePath, `${utils_1.toCommandValue(message)}${os.EOL}`, {
         encoding: "utf8"
       });
     }
@@ -9386,15 +9386,15 @@ var require_picomatch2 = __commonJS({
 var require_readdirp = __commonJS({
   "node_modules/readdirp/index.js"(exports2, module2) {
     "use strict";
-    var fs = require("fs");
+    var fs2 = require("fs");
     var { Readable } = require("stream");
     var sysPath = require("path");
     var { promisify } = require("util");
     var picomatch = require_picomatch2();
-    var readdir = promisify(fs.readdir);
-    var stat = promisify(fs.stat);
-    var lstat = promisify(fs.lstat);
-    var realpath = promisify(fs.realpath);
+    var readdir = promisify(fs2.readdir);
+    var stat = promisify(fs2.stat);
+    var lstat = promisify(fs2.lstat);
+    var realpath = promisify(fs2.realpath);
     var BANG = "!";
     var RECURSIVE_ERROR_CODE = "READDIRP_RECURSIVE_ERROR";
     var NORMAL_FLOW_ERRORS = new Set(["ENOENT", "EPERM", "EACCES", "ELOOP", RECURSIVE_ERROR_CODE]);
@@ -9468,7 +9468,7 @@ var require_readdirp = __commonJS({
         this._wantsFile = [FILE_TYPE, FILE_DIR_TYPE, EVERYTHING_TYPE].includes(type);
         this._wantsEverything = type === EVERYTHING_TYPE;
         this._root = sysPath.resolve(root);
-        this._isDirent = "Dirent" in fs && !opts.alwaysStat;
+        this._isDirent = "Dirent" in fs2 && !opts.alwaysStat;
         this._statsProp = this._isDirent ? "dirent" : "stats";
         this._rdOptions = { encoding: "utf8", withFileTypes: this._isDirent };
         this.parents = [this._exploreDir(root, 1)];
@@ -13892,7 +13892,7 @@ var require_internal_globber = __commonJS({
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.DefaultGlobber = void 0;
     var core3 = __importStar(require_core());
-    var fs = __importStar(require("fs"));
+    var fs2 = __importStar(require("fs"));
     var globOptionsHelper = __importStar(require_internal_glob_options_helper());
     var path2 = __importStar(require("path"));
     var patternHelper = __importStar(require_internal_pattern_helper());
@@ -13946,7 +13946,7 @@ var require_internal_globber = __commonJS({
           for (const searchPath of patternHelper.getSearchPaths(patterns)) {
             core3.debug(`Search path '${searchPath}'`);
             try {
-              yield __await(fs.promises.lstat(searchPath));
+              yield __await(fs2.promises.lstat(searchPath));
             } catch (err) {
               if (err.code === "ENOENT") {
                 continue;
@@ -13974,7 +13974,7 @@ var require_internal_globber = __commonJS({
                 continue;
               }
               const childLevel = item.level + 1;
-              const childItems = (yield __await(fs.promises.readdir(item.path))).map((x) => new internal_search_state_1.SearchState(path2.join(item.path, x), childLevel));
+              const childItems = (yield __await(fs2.promises.readdir(item.path))).map((x) => new internal_search_state_1.SearchState(path2.join(item.path, x), childLevel));
               stack.push(...childItems.reverse());
             } else if (match & internal_match_kind_1.MatchKind.File) {
               yield yield __await(item.path);
@@ -14006,7 +14006,7 @@ var require_internal_globber = __commonJS({
           let stats;
           if (options.followSymbolicLinks) {
             try {
-              stats = yield fs.promises.stat(item.path);
+              stats = yield fs2.promises.stat(item.path);
             } catch (err) {
               if (err.code === "ENOENT") {
                 if (options.omitBrokenSymbolicLinks) {
@@ -14018,10 +14018,10 @@ var require_internal_globber = __commonJS({
               throw err;
             }
           } else {
-            stats = yield fs.promises.lstat(item.path);
+            stats = yield fs2.promises.lstat(item.path);
           }
           if (stats.isDirectory() && options.followSymbolicLinks) {
-            const realPath = yield fs.promises.realpath(item.path);
+            const realPath = yield fs2.promises.realpath(item.path);
             while (traversalChain.length >= item.level) {
               traversalChain.pop();
             }
@@ -14122,7 +14122,7 @@ var require_internal_hash_files = __commonJS({
     exports2.hashFiles = void 0;
     var crypto = __importStar(require("crypto"));
     var core3 = __importStar(require_core());
-    var fs = __importStar(require("fs"));
+    var fs2 = __importStar(require("fs"));
     var stream = __importStar(require("stream"));
     var util = __importStar(require("util"));
     var path2 = __importStar(require("path"));
@@ -14142,13 +14142,13 @@ var require_internal_hash_files = __commonJS({
               core3.debug(`Ignore '${file}' since it is not under GITHUB_WORKSPACE.`);
               continue;
             }
-            if (fs.statSync(file).isDirectory()) {
+            if (fs2.statSync(file).isDirectory()) {
               core3.debug(`Skip directory '${file}'.`);
               continue;
             }
             const hash = crypto.createHash("sha256");
             const pipeline = util.promisify(stream.pipeline);
-            yield pipeline(fs.createReadStream(file), hash);
+            yield pipeline(fs2.createReadStream(file), hash);
             result.write(hash.digest());
             count++;
             if (!hasMatch) {
@@ -14467,11 +14467,11 @@ var require_ansi_colors = __commonJS({
 
 // src/depcheck.ts
 var core = __toModule(require_core());
-var import_promises = __toModule(require("fs/promises"));
+var import_fs = __toModule(require("fs"));
 var path = __toModule(require("path"));
 var import_depcheck = __toModule(require_dist());
 var glob = __toModule(require_glob());
-var import_fs = __toModule(require("fs"));
+var import_fs2 = __toModule(require("fs"));
 var c = __toModule(require_ansi_colors());
 function getPackagePath(pkgPath) {
   if (pkgPath.endsWith("package.json"))
@@ -14479,7 +14479,7 @@ function getPackagePath(pkgPath) {
   return path.join(pkgPath, "package.json");
 }
 async function loadPackageJson(pkgPath) {
-  const rootJson = await (0, import_promises.readFile)(getPackagePath(pkgPath));
+  const rootJson = await import_fs.promises.readFile(getPackagePath(pkgPath));
   return JSON.parse(rootJson.toString());
 }
 async function main() {
@@ -14500,7 +14500,7 @@ async function main() {
   }
 }
 async function depCheck(path2) {
-  if (!(0, import_fs.existsSync)(getPackagePath(path2))) {
+  if (!(0, import_fs2.existsSync)(getPackagePath(path2))) {
     core.debug(`Skipping path: "${path2}" - No package.json found`);
     return;
   }
