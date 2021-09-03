@@ -12,6 +12,7 @@ o.spec('Main', () => {
   });
 
   o('should find package.json', async () => {
+    o.timeout(500);
     sandbox.stub(core, 'getInput').returns(path.join(Examples, 'missing-dep'));
     const errStub = sandbox.stub(core, 'error');
 
@@ -24,6 +25,8 @@ o.spec('Main', () => {
   });
 
   o('should find find workspaces', async () => {
+    o.timeout(500);
+
     sandbox.stub(core, 'getInput').returns(path.join(Examples, 'workspace'));
     const errStub = sandbox.stub(core, 'error');
 
