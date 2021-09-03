@@ -2494,7 +2494,7 @@ var require_ignore = __commonJS({
   }
 });
 
-// src/index.ts
+// src/action.ts
 __export(exports, {
   main: () => main
 });
@@ -2800,9 +2800,11 @@ var ImportChecker = class {
   }
 };
 
-// src/index.ts
-async function main(rootPackage = core2.getInput("package-json")) {
-  const checker = new ImportChecker(rootPackage, { ignorePackages: new Set() });
+// src/action.ts
+async function main() {
+  var _a;
+  const ignorePackages = new Set(((_a = core2.getInput("package-ignore")) != null ? _a : "").split(",").map((c) => c.trim()));
+  const checker = new ImportChecker(core2.getInput("package-json"), { ignorePackages });
   await checker.check();
 }
 main().catch((e) => core2.setFailed(e.mssage));
